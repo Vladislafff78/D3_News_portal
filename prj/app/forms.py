@@ -15,6 +15,10 @@ class PostForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Введите текст статьи'
             }),
+            "post_photo": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Фото'
+            }),
             "post_author": TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Имя Автора'

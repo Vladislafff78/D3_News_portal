@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponse, Http404
 from django.views.generic import (CreateView)
 from django.shortcuts import render, redirect
 
-from .models import Post
-from .forms import PostForm
+from .forms import *
 
 
 class CreatePost(PermissionRequiredMixin, CreateView):
@@ -27,3 +27,7 @@ def index(request):
 def posts(request):
     post = Post.objects.order_by('-id')
     return render(request, 'posts.html', {'title': 'Новостной портал - Статьи', 'post': post})
+
+
+def show_post(request, post_id):
+    return HttpResponse(f"Отображение статьи с id = {post_id}")
