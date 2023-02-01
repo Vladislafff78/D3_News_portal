@@ -1,25 +1,24 @@
-from .models import Post
-from django.forms import ModelForm, TextInput, Textarea
+from django import forms
+from .models import *
 
 
-class PostForm(ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["post_title", "post_text", "post_author"]
+        fields = '__all__'
         widgets = {
-            "post_title": TextInput(attrs={
+            "post_title": forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Введите название статьи'
             }),
-            "post_text": Textarea(attrs={
+            "post_text": forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Введите текст статьи'
             }),
-            "post_photo": TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Фото'
+            "post_photo": forms.ClearableFileInput(attrs={
+                'class': 'ImageField',
             }),
-            "post_author": TextInput(attrs={
+            "post_author": forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Имя Автора'
             })

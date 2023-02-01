@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.http import HttpResponse, Http404
 from django.views.generic import (CreateView)
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import *
 
@@ -14,10 +13,14 @@ class CreatePost(PermissionRequiredMixin, CreateView):
     template_name = 'create_post.html'
     success_url = 'posts'
 
-    def create_post(self):
-        form = PostForm(self.request.POST)
-        form.save()
-        return redirect('posts')
+    def create_post(self, request):
+        if request.method == 'POST':
+            form = PostForm(self.request.POST, self.request.FILES)
+            if form.is_valid():
+                # print(form.cleaned_data)
+                form.save()
+                return redirect('home')
+        return render(request, 'app/create_post.html')
 
 
 def index(request):
@@ -30,4 +33,16 @@ def posts(request):
 
 
 def show_post(request, post_id):
-    return HttpResponse(f"Отображение статьи с id = {post_id}")
+    post = get_object_or_404(Post, pk=post_id)
+
+    context = {
+        'post': post,
+        'post_title': post.post_title,
+        'post_text': post.post_text,
+        'post_photo': post.post_photo,
+        'post_author': post.post_author,
+        'post_date': post.post_date,
+        'post_date_update': post.post_date_update,
+    }
+
+    return render(request, 'app/post.html', context=context)

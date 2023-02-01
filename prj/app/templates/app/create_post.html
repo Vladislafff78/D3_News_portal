@@ -7,11 +7,11 @@
 {% block content %}
 <br>
 <h4> Создать новую статью </h4>
-    <form method="post" >
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.post_title}}<br>
         {{form.post_text}}<br>
-        {{form.post_photo}}<br>
+        {{form.post_photo}}<br><br>
         {{form.post_author}}<br>
         <button type="submit" class="btn btn-success">Добавить</button>
     </form>
